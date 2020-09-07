@@ -69,13 +69,34 @@ export default {
     // Doc: https://http.nuxtjs.org
     '@nuxt/http',
     '@nuxtjs/style-resources',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
 
+  axios: {
+    baseURL: "http://localhost:3000/api"
+  },
   /*
   ** Server Middleware
   */
   serverMiddleware: {
     '/api': '~/api'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/sessions', method: 'post', propertyName: 'token' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/sessions/user', method: 'get', propertyName: 'user' }
+        },
+        // tokenRequired: true,
+        // tokenType: 'bearer',
+        // globalToken: true,
+        // autoFetchUser: true
+      }
+    }
   },
 
   /*

@@ -1,10 +1,24 @@
 <template>
   <div>
     <h1 :class="$style.task__title"> Tasks </h1>
-    <div :class="$style.task__wrapper">
+    <table :class="$style.task__wrapper">
       <HeaderDefault />
-      <HeaderItem />
-    </div>
+      <tbody>
+        <HeaderItem
+          title="NewTitle"
+          description="NewDescription"
+          :deadline="24"
+          priority="low"
+        />
+      </tbody>
+    </table>
+    <vs-button
+      :class="$style.taskCreate__btn"
+      relief
+      success
+    >
+      Create Task
+    </vs-button>
   </div>
 </template>
 
@@ -40,5 +54,14 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.taskCreate__btn {
+  position: absolute;
+  width: 120px;
+  height: 50px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  font-size: 16px;
 }
 </style>
