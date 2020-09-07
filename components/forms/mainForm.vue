@@ -14,6 +14,13 @@
       label-placeholder="Password"
       style="text-align: left;"
     />
+    <vs-input
+      v-if="title === 'Registration'"
+      v-model="userInfo.email"
+      :class="$style.form__input"
+      label-placeholder="Email"
+      style="text-align: left;"
+    />
     <vs-button
       @click.prevent="submitForm(userInfo)"
       :class="$style.form__btn"
@@ -31,7 +38,8 @@ export default {
     return {
       userInfo: {
         login: '',
-        password: ''
+        password: '',
+        email: ''
       }
     }
   },

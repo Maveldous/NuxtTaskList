@@ -12,18 +12,13 @@
 import mainForm from '~~/components/forms/mainForm'
 
 export default {
-  async asyncData ({ $http }) {
-    const test = await $http.$get('/api/test')
-    return {
-      test
-    }
-  },
   components: {
     mainForm
   },
   methods: {
-    registerUser (info) {
-
+    async registerUser (info) {
+      const responce = await this.$axios.$post('http://localhost:3001/api/auth/register', info)
+      console.log(responce)
     }
   }
 }
