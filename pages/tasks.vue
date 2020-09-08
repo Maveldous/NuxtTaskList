@@ -5,14 +5,15 @@
       <HeaderDefault />
       <tbody>
         <HeaderItem
-          title="NewTitle"
-          description="NewDescription"
-          :deadline="24"
-          priority="low"
+          v-for="(item, index) in dataObject"
+          v-model="dataObject[index]"
+          :key="index"
+          :objectData="item"
         />
       </tbody>
     </table>
     <vs-button
+      @click.prevent="addTask"
       :class="$style.taskCreate__btn"
       relief
       success
@@ -27,17 +28,47 @@ import HeaderItem from '~~/components/common/HeaderItem'
 import HeaderDefault from '~~/components/common/HeaderDefault'
 
 export default {
+  data () {
+    return {
+      dataObject: {}
+    }
+  },
   components: {
     HeaderItem,
     HeaderDefault
+  },
+  methods: {
+    async addTask () {
+      // console.log(this.dataObject)
+      const login = JSON.parse(localStorage.getItem('isLogin'))
+      const uploadData = {
+        ...login,
+        links: this.dataObject
+      }
+      console.log(uploadData)
+      const responce = await this.$axios.post('/auth/uploadInfo', uploadData)
+      console.log(responce)
+    }
   },
   async beforeMount () {
     const login = localStorage.getItem('isLogin')
     if (!login) {
       this.$router.push('/')
     }
-    console.log(login)
-    await this.$axios.post('/auth/getInfo', JSON.parse(login))
+    const responce = await this.$axios.post('/auth/getInfo', JSON.parse(login))
+    this.dataObject = responce.data.data
+  },
+  watch: {
+    async dataObject () {
+      const login = JSON.parse(localStorage.getItem('isLogin'))
+      const uploadData = {
+        ...login,
+        links: this.dataObject
+      }
+      console.log(uploadData)
+      const responce = await this.$axios.post('/auth/uploadInfo', uploadData)
+      console.log(responce)
+    }
   }
 }
 </script>

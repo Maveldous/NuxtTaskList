@@ -1,28 +1,48 @@
 <template>
   <tr :class="$style.item">
-    <td :class="$style.tElem">{{title}}</td>
-    <td :class="$style.tElem">{{description}}</td>
-    <td :class="$style.tElem">{{deadline}}</td>
-    <td :class="$style.tElem">{{priority}}</td>
+    <td :class="$style.tElem">
+      <vs-input
+        v-model="objectData.title"
+        :disabled="disabled"
+      />
+    </td>
+    <td :class="$style.tElem">
+      <vs-input
+        v-model="objectData.description"
+        :disabled="disabled"
+      />
+    </td>
+    <td :class="$style.tElem">
+      <vs-input
+        v-model="objectData.deadline"
+        :disabled="disabled"
+      />
+    </td>
+    <td :class="$style.tElem">
+      <vs-input
+        v-model="objectData.priority"
+        :disabled="disabled"
+      />
+    </td>
     <td :class="$style.tElem">
       <vs-radio
         :class="$style.radioElem"
-        v-model="picked"
-        val="1"
+        v-model="objectData.state"
+        val="New"
       >
         New
       </vs-radio>
       <vs-radio
         :class="$style.radioElem"
-        v-model="picked"
-        val="2"
+        v-model="objectData.state"
+        val="Processed"
       >
         Processed
       </vs-radio>
       <vs-radio
         :class="$style.radioElem"
-        v-model="picked"
-        val="3"
+        v-model="objectData.state"
+        val="Done"
       >
         Done
       </vs-radio>
@@ -35,14 +55,20 @@
 export default {
   data () {
     return {
-      picked: 1
     }
   },
   props: {
-    title: { type: String, default: '' },
-    description: { type: String, default: '' },
-    deadline: { type: Number, default: 24 },
-    priority: { type: String, default: '' }
+    objectData: { default: {} }
+    // title: { type: String, default: '' },
+    // description: { type: String, default: '' },
+    // deadline: { type: Number, default: 24 },
+    // priority: { type: String, default: '' },
+    // state: { type: String, default: 'New' }
+  },
+  computed: {
+    disabled () {
+      return this.objectData.state !== 'New'
+    }
   }
 }
 </script>

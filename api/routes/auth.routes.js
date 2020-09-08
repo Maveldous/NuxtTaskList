@@ -64,35 +64,44 @@ router.post('/getInfo', async (req, res) => {
     const {token} = req.body
     const decoded = jwt.verify(token, 'jwtSecret')
     const email = decoded.userEmail
-    
-    const data = await User.findOne({ email })
-    
-    console.log(data);
 
-    res.status(201).json({ data })
+    // await User.updateOne({ email }, {
+    //   links: [{
+    //     title: 'someTitle',
+    //     description: 'someDesc',
+    //     deadline: '23',
+    //     priority: 'low',
+    //     state: 'New'
+    //   }]
+    // })
 
-    
-    // const user = await User.findOne({ email })
+    const newData = await User.findOne({ email })
 
-    // if(!user) {
-    //   return res.status(400).json({ message: 'Пользователь не найден'})
-    // }
+    const data = newData.links
 
-    // const isMatch = await bcrypt.compare(password, user.password)
-
-    // if(!isMatch) {
-    //   return res.status(400).json({ message: 'Неверный пароль'})
-    // }
-
-    // const token = jwt.sign(
-    //   { userId: user.id },
-    //   'jwtSecret',
-    //   { expiresIn: '1h' }
-    // )
-
-    // res.status(201).json({ token, userId: user.id })
+    res.status(200).json({data})
 
   } catch (e) {
+    console.error(e)
+    res.status(500).json( { message: 'Что-то пошло не так'})
+  }
+})
+
+// /api/auth/uploadInfo
+router.post('/uploadInfo', async (req, res) => {
+  try {
+    const {token, links} = req.body
+    const decoded = jwt.verify(token, 'jwtSecret')
+    const email = decoded.userEmail
+
+    await User.updateOne({ email }, {
+      links: [...links]
+    })
+
+    res.status(201).json({message: 'База по пользователю обновлена'})
+
+  } catch (e) {
+    console.error(e)
     res.status(500).json( { message: 'Что-то пошло не так'})
   }
 })
