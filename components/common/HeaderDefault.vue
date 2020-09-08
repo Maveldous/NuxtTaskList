@@ -11,9 +11,6 @@
 </template>
 
 <style lang="scss" module>
-.tasks__header {
-  border: 1px solid #ddd;
-}
 th{
   width: 200px;
   height: 100px;

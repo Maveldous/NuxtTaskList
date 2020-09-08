@@ -81,14 +81,10 @@ export default {
 
 <style lang="scss" module>
 .tElem{
-  // display: inline-block;
   width: 200px;
-  max-width: 200px;
   height: 100px;
   text-align: center;
   word-wrap: break-word;
-  overflow-x: hidden;
-  overflow-y: scroll;
 }
 .radioElem {
   margin: 20px 40px;
