@@ -13,8 +13,9 @@ export default {
   },
   methods: {
     async loginUser (info) {
-      // http://localhost:3001/api/auth/register
-      await this.$axios.$post('http://localhost:3001/api/auth/register', info)
+      const responce = await this.$axios.post('/auth/login', info)
+      localStorage.setItem('isLogin', JSON.stringify(responce.data))
+      this.$router.push('/tasks')
     }
   }
 }

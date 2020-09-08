@@ -7,8 +7,8 @@ const router = Router()
 // /api/auth/register
 router.post('/register', async (req, res) => {
   try {
-    const {login, email, password} = req.body
-    console.log(login, email, password)
+    const {email, password} = req.body
+    console.log( email, password)
 
     const candidate = await User.findOne({ email })
 
@@ -29,7 +29,72 @@ router.post('/register', async (req, res) => {
 
 // /api/auth/login
 router.post('/login', async (req, res) => {
-  
+  try {
+    const {email, password} = req.body
+    console.log(email, password)
+
+    const user = await User.findOne({ email })
+
+    if(!user) {
+      return res.status(400).json({ message: 'Пользователь не найден'})
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    if(!isMatch) {
+      return res.status(400).json({ message: 'Неверный пароль'})
+    }
+
+    const token = jwt.sign(
+      { userEmail: email },
+      'jwtSecret',
+      { expiresIn: '1h' }
+    )
+
+    res.status(201).json({ token, userId: user.id })
+
+  } catch (e) {
+    res.status(500).json( { message: 'Что-то пошло не так'})
+  }
+})
+
+// /api/auth/getInfo
+router.post('/getInfo', async (req, res) => {
+  try {
+    const {token} = req.body
+    const decoded = jwt.verify(token, 'jwtSecret')
+    const email = decoded.userEmail
+    
+    const data = await User.findOne({ email })
+    
+    console.log(data);
+
+    res.status(201).json({ data })
+
+    
+    // const user = await User.findOne({ email })
+
+    // if(!user) {
+    //   return res.status(400).json({ message: 'Пользователь не найден'})
+    // }
+
+    // const isMatch = await bcrypt.compare(password, user.password)
+
+    // if(!isMatch) {
+    //   return res.status(400).json({ message: 'Неверный пароль'})
+    // }
+
+    // const token = jwt.sign(
+    //   { userId: user.id },
+    //   'jwtSecret',
+    //   { expiresIn: '1h' }
+    // )
+
+    // res.status(201).json({ token, userId: user.id })
+
+  } catch (e) {
+    res.status(500).json( { message: 'Что-то пошло не так'})
+  }
 })
 
 module.exports = router

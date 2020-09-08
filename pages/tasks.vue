@@ -27,19 +27,17 @@ import HeaderItem from '~~/components/common/HeaderItem'
 import HeaderDefault from '~~/components/common/HeaderDefault'
 
 export default {
-  data () {
-    return {
-    }
-  },
   components: {
     HeaderItem,
     HeaderDefault
   },
-  async asyncData ({ $http }) {
-    const test = await $http.$get('/api/test')
-    return {
-      test
+  async beforeMount () {
+    const login = localStorage.getItem('isLogin')
+    if (!login) {
+      this.$router.push('/')
     }
+    console.log(login)
+    await this.$axios.post('/auth/getInfo', JSON.parse(login))
   }
 }
 </script>

@@ -30,9 +30,11 @@ const PORT = process.env.PORT || 3001
 // Create express instance
 const app = express()
 
+const jsonParser = bodyParser.json()
+
 app.use(cors())
-var jsonParser = bodyParser.json()
 app.use('/api/auth',jsonParser, require('./routes/auth.routes'))
+app.use('/api/links',jsonParser, require('./routes/link.routes'))
 
 // // Require API routes
 // const users = require('./routes/users')

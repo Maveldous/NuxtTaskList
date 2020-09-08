@@ -17,8 +17,12 @@ export default {
   },
   methods: {
     async registerUser (info) {
-      const responce = await this.$axios.$post('http://localhost:3001/api/auth/register', info)
-      console.log(responce)
+      try {
+        const responce = await this.$axios.$post('http://localhost:3001/api/auth/register', info)
+        console.log(responce)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }

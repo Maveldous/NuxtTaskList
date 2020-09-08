@@ -70,11 +70,11 @@ export default {
     '@nuxt/http',
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    // '@nuxtjs/auth'
   ],
 
   axios: {
-    baseURL: "http://localhost:3000/api"
+    baseURL: "http://localhost:3001/api"
   },
   /*
   ** Server Middleware
@@ -83,21 +83,21 @@ export default {
     '/api': '~/api'
   },
 
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/sessions', method: 'post', propertyName: 'token' },
-          logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/sessions/user', method: 'get', propertyName: 'user' }
-        },
-        // tokenRequired: true,
-        // tokenType: 'bearer',
-        // globalToken: true,
-        // autoFetchUser: true
-      }
-    }
-  },
+  // auth: {
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: { url: '/auth/login', method: 'post', propertyName: 'token' },
+  //         logout: { url: '/api/auth/logout', method: 'post' },
+  //         user: { url: '/sessions/user', method: 'get', propertyName: 'user' }
+  //       },
+  //       // tokenRequired: true,
+  //       // tokenType: 'bearer',
+  //       // globalToken: true,
+  //       // autoFetchUser: true
+  //     }
+  //   }
+  // },
 
   /*
   ** Build configuration

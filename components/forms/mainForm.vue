@@ -2,9 +2,9 @@
   <form :class="$style.form">
     <h1> {{ title }} </h1>
     <vs-input
-      v-model="userInfo.login"
+      v-model="userInfo.email"
       :class="$style.form__input"
-      label-placeholder="Login"
+      label-placeholder="Email"
       style="text-align: left;"
     />
     <vs-input
@@ -14,13 +14,12 @@
       label-placeholder="Password"
       style="text-align: left;"
     />
-    <vs-input
-      v-if="title === 'Registration'"
-      v-model="userInfo.email"
-      :class="$style.form__input"
-      label-placeholder="Email"
-      style="text-align: left;"
-    />
+    <nuxt-link
+      v-if="title == 'Login'"
+      to="/registration"
+    >
+      Haven't account?
+    </nuxt-link>
     <vs-button
       @click.prevent="submitForm(userInfo)"
       :class="$style.form__btn"
@@ -37,9 +36,8 @@ export default {
   data () {
     return {
       userInfo: {
-        login: '',
-        password: '',
-        email: ''
+        password: '11',
+        email: '11'
       }
     }
   },
@@ -47,6 +45,11 @@ export default {
     title: { type: String, default: 'Login' },
     color: { type: String, default: '' },
     submitForm: { default: '' }
+  },
+  beforeMount () {
+    if (localStorage.getItem('isLogin')) {
+      this.$router.push('/tasks')
+    }
   }
 }
 </script>
