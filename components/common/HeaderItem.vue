@@ -19,10 +19,21 @@
       />
     </td>
     <td :class="$style.tElem">
-      <vs-input
+      <vs-select
+        placeholder="Select"
         v-model="objectData.priority"
         :disabled="disabled"
-      />
+      >
+        <vs-option label="low" value="low">
+          low
+        </vs-option>
+        <vs-option label="medium" value="medium">
+          medium
+        </vs-option>
+        <vs-option label="high" value=high>
+          high
+        </vs-option>
+      </vs-select>
     </td>
     <td :class="$style.tElem">
       <vs-radio
