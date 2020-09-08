@@ -1,4 +1,4 @@
-# nuxt-Task-list
+# nuxt-task-list
 
 ## Build Setup
 
