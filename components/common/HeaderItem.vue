@@ -59,11 +59,6 @@ export default {
   },
   props: {
     objectData: { default: {} }
-    // title: { type: String, default: '' },
-    // description: { type: String, default: '' },
-    // deadline: { type: Number, default: 24 },
-    // priority: { type: String, default: '' },
-    // state: { type: String, default: 'New' }
   },
   computed: {
     disabled () {
@@ -74,9 +69,6 @@ export default {
 </script>
 
 <style lang="scss" module>
-.item {
-  border: 1px solid #ddd;
-}
 .tElem{
   // display: inline-block;
   width: 200px;

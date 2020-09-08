@@ -8,7 +8,6 @@ const router = Router()
 router.post('/register', async (req, res) => {
   try {
     const {email, password} = req.body
-    console.log( email, password)
 
     const candidate = await User.findOne({ email })
 
@@ -64,16 +63,6 @@ router.post('/getInfo', async (req, res) => {
     const {token} = req.body
     const decoded = jwt.verify(token, 'jwtSecret')
     const email = decoded.userEmail
-
-    // await User.updateOne({ email }, {
-    //   links: [{
-    //     title: 'someTitle',
-    //     description: 'someDesc',
-    //     deadline: '23',
-    //     priority: 'low',
-    //     state: 'New'
-    //   }]
-    // })
 
     const newData = await User.findOne({ email })
 

@@ -1,5 +1,22 @@
 <template>
   <div>
+    <div :class="$style.task__btns">
+      <vs-button
+        :class="$style.btn"
+        @click.prevent="saveAll"
+        flat
+      >
+        Save
+      </vs-button>
+      <vs-button
+        :class="$style.btn"
+        @click.prevent="logout"
+        color="#7d33ff"
+        flat
+      >
+        Logout
+      </vs-button>
+    </div>
     <h1 :class="$style.task__title"> Tasks </h1>
     <table :class="$style.task__wrapper">
       <HeaderDefault />
@@ -14,7 +31,7 @@
     </table>
     <vs-button
       @click.prevent="addTask"
-      :class="$style.taskCreate__btn"
+      :class="[$style.taskCreate__btn, $style.btn]"
       relief
       success
     >
@@ -30,7 +47,7 @@ import HeaderDefault from '~~/components/common/HeaderDefault'
 export default {
   data () {
     return {
-      dataObject: {}
+      dataObject: []
     }
   },
   components: {
@@ -38,16 +55,26 @@ export default {
     HeaderDefault
   },
   methods: {
-    async addTask () {
-      // console.log(this.dataObject)
+    addTask () {
+      this.dataObject.push({
+        title: '',
+        description: '',
+        deadline: '24',
+        priority: '',
+        state: 'New'
+      })
+    },
+    saveAll () {
       const login = JSON.parse(localStorage.getItem('isLogin'))
       const uploadData = {
         ...login,
         links: this.dataObject
       }
-      console.log(uploadData)
-      const responce = await this.$axios.post('/auth/uploadInfo', uploadData)
-      console.log(responce)
+      this.$axios.post('/auth/uploadInfo', uploadData)
+    },
+    logout () {
+      localStorage.removeItem('isLogin')
+      this.$router.push('/')
     }
   },
   async beforeMount () {
@@ -57,25 +84,23 @@ export default {
     }
     const responce = await this.$axios.post('/auth/getInfo', JSON.parse(login))
     this.dataObject = responce.data.data
-  },
-  watch: {
-    async dataObject () {
-      const login = JSON.parse(localStorage.getItem('isLogin'))
-      const uploadData = {
-        ...login,
-        links: this.dataObject
-      }
-      console.log(uploadData)
-      const responce = await this.$axios.post('/auth/uploadInfo', uploadData)
-      console.log(responce)
-    }
   }
 }
 </script>
 
 <style lang="scss" module>
+.btn {
+  width: 120px;
+  height: 50px;
+  font-size: 16px;
+}
+.task__btns {
+  display: flex;
+  justify-content: flex-end;
+  background: #eee;
+}
 .task__title {
-  margin: 80px 0;
+  margin: 40px 0;
   text-align: center;
 }
 .task__wrapper {
@@ -86,11 +111,8 @@ export default {
 }
 .taskCreate__btn {
   position: absolute;
-  width: 120px;
-  height: 50px;
   bottom: 20px;
   left: 20px;
   z-index: 100;
-  font-size: 16px;
 }
 </style>
